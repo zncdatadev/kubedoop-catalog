@@ -1,0 +1,134 @@
+---
+defaultChannel: fast-v0.0
+name: spark-k8s-operator
+schema: olm.package
+---
+entries:
+- name: spark-k8s-operator.v0.0.1
+name: fast-v0.0
+package: spark-k8s-operator
+schema: olm.channel
+---
+image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
+name: spark-k8s-operator.v0.0.1
+package: spark-k8s-operator
+properties:
+- type: olm.gvk
+  value:
+    group: stack.zncdata.net
+    kind: SparkHistoryServer
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: spark-k8s-operator
+    version: 0.0.1
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "stack.zncdata.net/v1alpha1",
+            "kind": "SparkHistoryServer",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "spark-k8s-operator",
+                "app.kubernetes.io/instance": "sparkhistoryserver-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "sparkhistoryserver",
+                "app.kubernetes.io/part-of": "spark-k8s-operator"
+              },
+              "name": "sparkhistoryserver-sample"
+            },
+            "spec": {
+              "image": {
+                "pullPolicy": "IfNotPresent",
+                "repository": "bitnami/spark",
+                "tag": "3.1.1"
+              },
+              "ingress": {
+                "annotations": {
+                  "kubernetes.io/ingress.class": "nginx",
+                  "nginx.ingress.kubernetes.io/rewrite-target": "/"
+                },
+                "enabled": true,
+                "hosts": [
+                  {
+                    "host": "spark-history-server.example.com",
+                    "paths": [
+                      {
+                        "path": "/",
+                        "pathType": "ImplementationSpecific"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "persistence": {
+                "accessMode": "ReadWriteOnce",
+                "enable": true,
+                "storageSize": "1Gi",
+                "volumeMode": "Filesystem"
+              },
+              "replicas": 1,
+              "resources": {
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "512Mi"
+                }
+              },
+              "securityContext": {
+                "fsGroup": 1000,
+                "runAsUser": 1000
+              },
+              "service": {
+                "port": 18080,
+                "type": "ClusterIP"
+              }
+            }
+          }
+        ]
+      capabilities: Basic Install
+      createdAt: "2023-09-21T19:23:26Z"
+      operators.operatorframework.io/builder: operator-sdk-v1.31.0
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: SparkHistoryServer is the Schema for the sparkhistoryservers
+          API
+        displayName: Spark History Server
+        kind: SparkHistoryServer
+        name: sparkhistoryservers.stack.zncdata.net
+        version: v1alpha1
+    description: spark for k8s operator
+    displayName: spark-k8s-operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - spark
+    - k8s
+    links:
+    - name: Spark K8s Operator
+      url: https://github.com/zncdata-labs/spark-k8s-operator
+    maintainers:
+    - email: huagang.wang@zncdata.com
+      name: wanghuagang
+    maturity: alpha
+    provider:
+      name: zncdata-labs
+relatedImages:
+- image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+  name: ""
+- image: quay.io/zncdata/spark-k8s-controller:latest
+  name: ""
+- image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
+  name: ""
+schema: olm.bundle

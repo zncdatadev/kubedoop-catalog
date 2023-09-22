@@ -1,0 +1,12 @@
+schema: olm.composite
+components:
+- name: spark-k8s-operator
+  destination:
+    path: spark-k8s-operator
+  strategy:
+    name: spark-k8s-operator
+    template:
+      schema: olm.builder.semver
+      config:
+        input: spark-k8s-operator/semver.yaml
+        output: catalogs.yaml

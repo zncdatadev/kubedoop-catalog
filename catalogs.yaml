@@ -1,0 +1,8 @@
+schema: olm.composite.catalogs
+catalogs:
+- name: spark-k8s-operator
+  destination:
+    baseImage: quay.io/operator-framework/opm:v1.24
+    workingDir: spark-k8s-operator
+  builders:
+  - olm.builder.semver
