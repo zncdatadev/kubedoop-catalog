@@ -3,7 +3,7 @@
 ## Usage
 
 ```bash
-docker buildx build --push -t quay.io/zncdata/catalog:v0.0.1 .
+make docker-build
 ```
 
 ```bash

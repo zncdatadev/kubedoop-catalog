@@ -1,0 +1,27 @@
+
+VERSION ?= 0.0.1
+
+IMG ?= quay.io/zncdata/catalog:v$(VERSION)
+
+.PHONY: docker-build
+docker-build: ## Build the docker image.
+	docker build --tag ${IMG} .
+
+.PHONY: docker-push
+docker-push: ## Push the docker image.
+	docker push ${IMG}
+
+PLATFORMS ?= linux/arm64,linux/amd64
+.PHONY: docker-buildx
+docker-buildx: ## Build the docker image using buildx.
+	sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
+	- docker buildx create --name project-v3-builder
+	docker buildx use project-v3-builder
+	- docker buildx build --platform $(PLATFORMS) --tag ${IMG} --push -f Dockerfile.cross .
+	- docker buildx rm project-v3-builder
+	rm Dockerfile.cross
+
+.PHONY: help
+help: ## Display this help.
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+

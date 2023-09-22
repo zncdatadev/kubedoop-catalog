@@ -1,3 +1,6 @@
+.git
+.gitignore
 .dockerignore
-Dockerfile
+Dockerfile*
 README.md
+makefile
