@@ -21,7 +21,7 @@ endif
 endif
 
 .PHONY: build
-build:
+build: opm
 	$(OPM) alpha render-template composite -o yaml
 
 .PHONY: docker-build
