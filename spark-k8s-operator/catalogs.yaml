@@ -89,7 +89,7 @@ properties:
           }
         ]
       capabilities: Basic Install
-      createdAt: "2023-09-21T19:23:26Z"
+      createdAt: "2023-10-07T07:23:22Z"
       operators.operatorframework.io/builder: operator-sdk-v1.31.0
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
     apiServiceDefinitions: {}
@@ -127,8 +127,8 @@ properties:
 relatedImages:
 - image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
   name: ""
-- image: quay.io/zncdata/spark-k8s-controller:latest
-  name: ""
 - image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
+  name: ""
+- image: quay.io/zncdata/spark-k8s-operator:0.0.1
   name: ""
 schema: olm.bundle
