@@ -4,4 +4,4 @@ GenerateMinorChannels: false
 fast:
   Bundles:
   - Image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
-
+  - Image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1-alpha
