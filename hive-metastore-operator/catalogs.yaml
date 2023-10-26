@@ -1,0 +1,114 @@
+---
+defaultChannel: fast-v0.0
+name: hive-metastore-operator
+schema: olm.package
+---
+entries:
+- name: hive-metastore-operator.v0.0.1-alpha
+name: fast-v0.0
+package: hive-metastore-operator
+schema: olm.channel
+---
+image: quay.io/zncdata/hive-metastore-operator-bundle:v0.0.1-alpha
+name: hive-metastore-operator.v0.0.1-alpha
+package: hive-metastore-operator
+properties:
+- type: olm.gvk
+  value:
+    group: stack.zncdata.net
+    kind: HiveMetastore
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: hive-metastore-operator
+    version: 0.0.1-alpha
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "stack.zncdata.net/v1alpha1",
+            "kind": "HiveMetastore",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "hive-metastore-operator",
+                "app.kubernetes.io/instance": "hivemetastore-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "hivemetastore",
+                "app.kubernetes.io/part-of": "hive-metastore-operator"
+              },
+              "name": "hivemetastore-sample"
+            },
+            "spec": {
+              "image": {
+                "pullPolicy": "IfNotPresent",
+                "repository": "quay.io/plutoso/hive",
+                "tag": "4.0.0-beta-1"
+              },
+              "postgres": {
+                "database": "metastore",
+                "host": "postgresql.default.svc",
+                "password": "12345678",
+                "port": "5432",
+                "username": "hive"
+              },
+              "replicas": 1,
+              "resources": {
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "512Mi"
+                }
+              },
+              "securityContext": {
+                "fsGroup": 1000,
+                "runAsUser": 1000
+              },
+              "service": {
+                "port": 18080,
+                "type": "ClusterIP"
+              }
+            }
+          }
+        ]
+      capabilities: Basic Install
+      createdAt: "2023-10-26T09:25:13Z"
+      operators.operatorframework.io/builder: operator-sdk-v1.31.0
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: HiveMetastore is the Schema for the hivemetastores API
+        displayName: Hive Metastore
+        kind: HiveMetastore
+        name: hivemetastores.stack.zncdata.net
+        version: v1alpha1
+    description: hive metastore for operator
+    displayName: hive-metastore-operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - hive
+    - metastore
+    links:
+    - name: Hive Metastore Operator
+      url: https://hive-metastore-operator.domain
+    maturity: alpha
+    provider:
+      name: zncdata-labs
+      url: https://github.com/zncdata-labs
+relatedImages:
+- image: docker.io/bitnami/kube-rbac-proxy:0.13.1
+  name: ""
+- image: quay.io/zncdata/hive-metastore-operator-bundle:v0.0.1-alpha
+  name: ""
+- image: quay.io/zncdata/hive-metastore-operator:0.0.1-alpha
+  name: ""
+schema: olm.bundle

@@ -6,3 +6,15 @@ catalogs:
     workingDir: spark-k8s-operator
   builders:
   - olm.builder.semver
+- name: trino-operator
+  destination:
+    baseImage: quay.io/operator-framework/opm:v1.24
+    workingDir: trino-operator
+  builders:
+  - olm.builder.semver
+- name: hive-metastore-operator
+  destination:
+    baseImage: quay.io/operator-framework/opm:v1.24
+    workingDir: hive-metastore-operator
+  builders:
+  - olm.builder.semver
