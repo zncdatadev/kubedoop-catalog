@@ -4,13 +4,13 @@ name: spark-k8s-operator
 schema: olm.package
 ---
 entries:
-- name: spark-k8s-operator.v0.0.1
+- name: spark-k8s-operator.v0.0.1-alpha
 name: fast-v0.0
 package: spark-k8s-operator
 schema: olm.channel
 ---
-image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
-name: spark-k8s-operator.v0.0.1
+image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1-alpha
+name: spark-k8s-operator.v0.0.1-alpha
 package: spark-k8s-operator
 properties:
 - type: olm.gvk
@@ -21,7 +21,7 @@ properties:
 - type: olm.package
   value:
     packageName: spark-k8s-operator
-    version: 0.0.1
+    version: 0.0.1-alpha
 - type: olm.csv.metadata
   value:
     annotations:
@@ -52,17 +52,7 @@ properties:
                   "nginx.ingress.kubernetes.io/rewrite-target": "/"
                 },
                 "enabled": true,
-                "hosts": [
-                  {
-                    "host": "spark-history-server.example.com",
-                    "paths": [
-                      {
-                        "path": "/",
-                        "pathType": "ImplementationSpecific"
-                      }
-                    ]
-                  }
-                ]
+                "host": "spark-history-server.example.com"
               },
               "persistence": {
                 "accessMode": "ReadWriteOnce",
@@ -89,7 +79,7 @@ properties:
           }
         ]
       capabilities: Basic Install
-      createdAt: "2023-10-07T07:23:22Z"
+      createdAt: "2023-10-24T07:08:39Z"
       operators.operatorframework.io/builder: operator-sdk-v1.31.0
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
     apiServiceDefinitions: {}
@@ -104,31 +94,36 @@ properties:
     description: spark for k8s operator
     displayName: spark-k8s-operator
     installModes:
-    - supported: false
+    - supported: true
       type: OwnNamespace
-    - supported: false
+    - supported: true
       type: SingleNamespace
     - supported: false
       type: MultiNamespace
-    - supported: true
+    - supported: false
       type: AllNamespaces
     keywords:
     - spark
     - k8s
     links:
-    - name: Spark K8s Operator
+    - name: Spark Website
+      url: https://spark.apache.org/
+    - name: Repository
       url: https://github.com/zncdata-labs/spark-k8s-operator
+    - name: icon
+      url: https://spark.apache.org/favicon.ico
     maintainers:
     - email: huagang.wang@zncdata.com
       name: wanghuagang
     maturity: alpha
     provider:
       name: zncdata-labs
+      url: https://github.com/zncdata-labs
 relatedImages:
-- image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+- image: docker.io/bitnami/kube-rbac-proxy:0.13.1
   name: ""
-- image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1
+- image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1-alpha
   name: ""
-- image: quay.io/zncdata/spark-k8s-operator:0.0.1
+- image: quay.io/zncdata/spark-k8s-operator:0.0.1-alpha
   name: ""
 schema: olm.bundle

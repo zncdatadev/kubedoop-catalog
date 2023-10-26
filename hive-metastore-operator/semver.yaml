@@ -3,4 +3,4 @@ GenerateMajorChannels: false
 GenerateMinorChannels: false
 fast:
   Bundles:
-  - Image: quay.io/zncdata/spark-k8s-operator-bundle:v0.0.1-alpha
+  - Image: quay.io/zncdata/hive-metastore-operator-bundle:v0.0.1-alpha
