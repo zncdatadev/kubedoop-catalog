@@ -56,3 +56,6 @@ docker-buildx: ## Build the docker image using buildx.
 	docker buildx build --platform $(PLATFORMS) --tag ${IMG} --push -f Dockerfile .
 	- docker buildx rm project-v3-builder
 
+.PHONY: validate
+validate: opm ## Validate the catalog.
+	$(OPM) validate zncdata-catalogs

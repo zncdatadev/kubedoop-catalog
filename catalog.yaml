@@ -1,4 +1,4 @@
-name: zncdata-catalog
+name: zncdata-catalogs
 repo: registry.cn-shanghai.aliyuncs.com/huagang/catalogs
 tag: latest
 references:
