@@ -1,7 +1,11 @@
 
-VERSION ?= 0.0.1-alpha
 
-IMG ?= quay.io/zncdata/catalog:v$(VERSION)
+IMG ?= quay.io/zncdata/catalog:latest
+
+
+.PHONY: help
+help: ## Display this help.
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 .PHONY: opm
 OPM = ./bin/opm
@@ -20,9 +24,21 @@ OPM = $(shell which opm)
 endif
 endif
 
+
+# https://olm.operatorframework.io/docs/reference/file-based-catalogs/#building-a-composite-catalog
 .PHONY: build
-build: opm
-	$(OPM) alpha render-template composite -o yaml
+build: opm ## Build the project
+	@{ \
+		set -ex ;\
+		NAME=$(shell yq eval '.name' catalog.yaml) ;\
+		mkdir -p $$NAME ;\
+		yq eval '.name + "/" + .references[].name' catalog.yaml | xargs mkdir -p ;\
+		for ref in $(shell yq e '.name as $$catalog | .references[] | .image + "," + $$catalog + "/" + .name + "/index.yaml"' catalog.yaml); do \
+			image=`echo $$ref | cut -d',' -f1` ;\
+			file=`echo $$ref | cut -d',' -f2` ;\
+			$(OPM) render -o yaml "$$image" > "$$file" ;\
+		done ;\
+	}
 
 .PHONY: docker-build
 docker-build: ## Build the docker image.
@@ -37,9 +53,6 @@ PLATFORMS ?= linux/arm64,linux/amd64
 docker-buildx: ## Build the docker image using buildx.
 	- docker buildx create --name project-v3-builder
 	docker buildx use project-v3-builder
-	- docker buildx build --platform $(PLATFORMS) --tag ${IMG} --push -f Dockerfile .
+	docker buildx build --platform $(PLATFORMS) --tag ${IMG} --push -f Dockerfile .
 	- docker buildx rm project-v3-builder
 
-.PHONY: help
-help: ## Display this help.
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
