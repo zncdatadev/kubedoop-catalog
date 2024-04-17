@@ -1,0 +1,6 @@
+name: zncdata-catalogs
+repo: registry.cn-shanghai.aliyuncs.com/huagang/catalogs
+tag: latest
+references:
+- name: spark-k8s-operator
+  image: quay.io/zncdata/spark-k8s-operator-catalog:latest
