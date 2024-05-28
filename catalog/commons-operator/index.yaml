@@ -1,0 +1,285 @@
+---
+defaultChannel: stable
+description: |+
+  # commons-operator
+  // TODO(user): Add simple overview of use/purpose
+
+  ## Description
+  // TODO(user): An in-depth paragraph about your project and overview of use
+
+  ## Getting Started
+  You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster.
+  **Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
+
+  ### Running on the cluster
+  1. Install Instances of Custom Resources:
+
+  ```sh
+  kubectl apply -f config/samples/
+  ```
+
+  2. Build and push your image to the location specified by `IMG`:
+
+  ```sh
+  make docker-build docker-push IMG=<some-registry>/commons-operator:tag
+  ```
+
+  3. Deploy the controller to the cluster with the image specified by `IMG`:
+
+  ```sh
+  make deploy IMG=<some-registry>/commons-operator:tag
+  ```
+
+  ### Uninstall CRDs
+  To delete the CRDs from the cluster:
+
+  ```sh
+  make uninstall
+  ```
+
+  ### Undeploy controller
+  UnDeploy the controller from the cluster:
+
+  ```sh
+  make undeploy
+  ```
+
+  ## Contributing
+  // TODO(user): Add detailed information on how you would like others to contribute to this project
+
+  ### How it works
+  This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+
+  It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/),
+  which provide a reconcile function responsible for synchronizing resources until the desired state is reached on the cluster.
+
+  ### Test It Out
+  1. Install the CRDs into the cluster:
+
+  ```sh
+  make install
+  ```
+
+  2. Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
+
+  ```sh
+  make run
+  ```
+
+  **NOTE:** You can also run this in one step by running: `make install run`
+
+  ### Modifying the API definitions
+  If you are editing the API definitions, generate the manifests such as CRs or CRDs using:
+
+  ```sh
+  make manifests
+  ```
+
+  **NOTE:** Run `make --help` for more information on all potential `make` targets
+
+  More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
+
+  ## License
+
+  Copyright 2023 zncdata-labs.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+name: commons-operator
+schema: olm.package
+---
+entries:
+- name: commons-operator.v0.0.1
+name: stable
+package: commons-operator
+schema: olm.channel
+---
+image: quay.io/zncdatadev/commons-operator-bundle:v0.0.1
+name: commons-operator.v0.0.1
+package: commons-operator
+properties:
+- type: olm.gvk
+  value:
+    group: zncdata.dev
+    kind: Database
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: zncdata.dev
+    kind: DatabaseConnection
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: zncdata.dev
+    kind: S3Bucket
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: zncdata.dev
+    kind: S3Connection
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: commons-operator
+    version: 0.0.1
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "zncdata.dev/v1alpha1",
+            "kind": "Database",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "commons-operator",
+                "app.kubernetes.io/instance": "database-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "database",
+                "app.kubernetes.io/part-of": "commons-operator"
+              },
+              "name": "database-sample"
+            },
+            "spec": {
+              "credential": {
+                "existingSecret": "database-sample-pg-user-1"
+              },
+              "databaseName": "znc_prod",
+              "reference": "databaseconnection-sample"
+            }
+          },
+          {
+            "apiVersion": "zncdata.dev/v1alpha1",
+            "kind": "DatabaseConnection",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "commons-operator",
+                "app.kubernetes.io/instance": "databaseconnection-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "databaseconnection",
+                "app.kubernetes.io/part-of": "commons-operator"
+              },
+              "name": "databaseconnection-sample"
+            },
+            "spec": {
+              "provider": {
+                "postgres": {
+                  "credential": {
+                    "existingSecret": "databaseconnect-sample-pg-root-1"
+                  },
+                  "driver": "org.postgresql.Driver",
+                  "host": "postgresql",
+                  "port": 5432,
+                  "ssl": false
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "zncdata.dev/v1alpha1",
+            "kind": "S3Bucket",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "commons-operator",
+                "app.kubernetes.io/instance": "s3bucket-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "s3bucket",
+                "app.kubernetes.io/part-of": "commons-operator"
+              },
+              "name": "s3bucket-sample"
+            },
+            "spec": {
+              "bucketName": "znc-warehouse",
+              "credential": {
+                "existSecret": "s3bucket-sample-user-1"
+              },
+              "reference": "s3connection-sample"
+            }
+          },
+          {
+            "apiVersion": "zncdata.dev/v1alpha1",
+            "kind": "S3Connection",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "commons-operator",
+                "app.kubernetes.io/instance": "s3connection-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "s3connection",
+                "app.kubernetes.io/part-of": "commons-operator"
+              },
+              "name": "s3connection-sample"
+            },
+            "spec": {
+              "credential": {
+                "existSecret": "s3connection-sample-root-1"
+              },
+              "endpoint": "http://minio:9000",
+              "pathStyle": true,
+              "region": "us-east-1",
+              "ssl": false
+            }
+          }
+        ]
+      capabilities: Basic Install
+      createdAt: "2024-05-28T06:17:43Z"
+      operators.operatorframework.io/builder: operator-sdk-v1.34.2
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: DatabaseConnection is the Schema for the databaseconnections
+          API
+        displayName: Database Connection
+        kind: DatabaseConnection
+        name: databaseconnections.zncdata.dev
+        version: v1alpha1
+      - kind: Database
+        name: databases.zncdata.dev
+        version: v1alpha1
+      - kind: S3Bucket
+        name: s3buckets.zncdata.dev
+        version: v1alpha1
+      - kind: S3Connection
+        name: s3connections.zncdata.dev
+        version: v1alpha1
+    description: zncdata-labs commons operator
+    displayName: commons operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - commons operator zncdata-labs
+    links:
+    - name: Commons Operator
+      url: https://github.com/zncdata-labs/operator-go
+    maintainers:
+    - email: huagang517@126.com
+      name: wanghuagang
+    maturity: alpha
+    provider:
+      name: zncdata-labs
+      url: https://github.com/zncdata-labs/commons-operator
+relatedImages:
+- image: docker.io/bitnami/kube-rbac-proxy:0.13.1
+  name: ""
+- image: quay.io/zncdatadev/commons-operator-bundle:v0.0.1
+  name: ""
+- image: quay.io/zncdatadev/commons-operator:v0.0.1
+  name: ""
+schema: olm.bundle
