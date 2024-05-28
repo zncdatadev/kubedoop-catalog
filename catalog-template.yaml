@@ -1,0 +1,8 @@
+name: catalog
+repo: rquay.io/zncdatadev/catalogs
+tag: latest
+references:
+- name: commons-operator
+  image: quay.io/zncdatadev/commons-operator-catalog:latest
+- name: listener-operator
+  image: quay.io/zncdatadev/listener-operator-catalog:latest

@@ -52,7 +52,7 @@ jobs:
         make validate
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'zncdata-labs/catalogs'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'zncdatadev/catalogs'
     runs-on: ubuntu-latest
     needs:
     - build

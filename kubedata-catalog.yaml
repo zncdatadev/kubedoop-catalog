@@ -1,0 +1,15 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: kubedata-catalog
+  namespace: olm
+spec:
+  sourceType: grpc
+  grpcPodConfig:
+    securityContextConfig: restricted
+  image: quay.io/zncdatadev/kubedata-catalog:latest
+  displayName: kubedata catalog
+  publisher: zncdata.dev
+  updateStrategy:
+    registryPoll:
+      interval: 15m

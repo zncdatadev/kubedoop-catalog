@@ -1,7 +1,11 @@
 
+PROJECT ?= kubedata-catalog
 
-IMG ?= quay.io/zncdata/catalog:latest
+REGISTRY ?= quay.io/zncdatadev
 
+IMG ?= $(REGISTRY)/$(PROJECT):latest
+
+CATALOG_TEMPLATE = catalog-template.yaml
 
 .PHONY: help
 help: ## Display this help.
@@ -24,24 +28,28 @@ OPM = $(shell which opm)
 endif
 endif
 
-
 # https://olm.operatorframework.io/docs/reference/file-based-catalogs/#building-a-composite-catalog
 .PHONY: build
 build: opm ## Build the project
 	@{ \
 		set -ex ;\
-		NAME=$(shell yq eval '.name' catalog.yaml) ;\
+		NAME=$(shell yq eval '.name' $(CATALOG_TEMPLATE)) ;\
+		rm -rf $$NAME ;\
 		mkdir -p $$NAME ;\
-		yq eval '.name + "/" + .references[].name' catalog.yaml | xargs mkdir -p ;\
-		for ref in $(shell yq e '.name as $$catalog | .references[] | .image + "," + $$catalog + "/" + .name + "/index.yaml"' catalog.yaml); do \
+		yq eval '.name + "/" + .references[].name' $(CATALOG_TEMPLATE) | xargs mkdir -p ;\
+		for ref in $(shell yq e '.name as $$catalog | .references[] | .image + "," + $$catalog + "/" + .name + "/index.yaml"' $(CATALOG_TEMPLATE)); do \
 			image=`echo $$ref | cut -d',' -f1` ;\
 			file=`echo $$ref | cut -d',' -f2` ;\
 			$(OPM) render -o yaml "$$image" > "$$file" ;\
 		done ;\
 	}
 
+.PHONY: validate
+validate: opm ## Validate the catalog image.
+	$(OPM) validate catalog
+
 .PHONY: docker-build
-docker-build: ## Build the docker image.
+docker-build: validate ## Build the docker image.
 	docker build --tag ${IMG} .
 
 .PHONY: docker-push
@@ -50,12 +58,8 @@ docker-push: ## Push the docker image.
 
 PLATFORMS ?= linux/arm64,linux/amd64
 .PHONY: docker-buildx
-docker-buildx: ## Build the docker image using buildx.
+docker-buildx: validate ## Build the docker image using buildx.
 	- docker buildx create --name project-v3-builder
 	docker buildx use project-v3-builder
 	docker buildx build --platform $(PLATFORMS) --tag ${IMG} --push -f Dockerfile .
-	- docker buildx rm project-v3-builder
-
-.PHONY: validate
-validate: opm ## Validate the catalog.
-	$(OPM) validate zncdata-catalogs
+	docker buildx rm project-v3-builder

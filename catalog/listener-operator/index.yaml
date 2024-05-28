@@ -1,0 +1,287 @@
+---
+defaultChannel: stable
+description: |
+  # listener-operator
+
+  // TODO(user): Add simple overview of use/purpose
+
+  ## Description
+
+  // TODO(user): An in-depth paragraph about your project and overview of use
+
+  ## Getting Started
+
+  You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster.
+  **Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
+
+  ### Running on the cluster
+
+  1. Install Instances of Custom Resources:
+
+      ```sh
+      kubectl apply -f config/samples/
+      ```
+
+  2. Build and push your image to the location specified by `IMG`:
+
+      ```sh
+      make docker-build docker-push IMG=<some-registry>/listener-operator:tag
+      ```
+
+  3. Deploy the controller to the cluster with the image specified by `IMG`:
+
+      ```sh
+      make deploy IMG=<some-registry>/listener-operator:tag
+      ```
+
+  ### Uninstall CRDs
+
+  To delete the CRDs from the cluster:
+
+  ```sh
+  make uninstall
+  ```
+
+  ### Undeploy controller
+
+  UnDeploy the controller from the cluster:
+
+  ```sh
+  make undeploy
+  ```
+
+  ## Contributing
+
+  // TODO(user): Add detailed information on how you would like others to contribute to this project
+
+  ### How it works
+
+  This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+
+  It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/),
+  which provide a reconcile function responsible for synchronizing resources until the desired state is reached on the cluster.
+
+  ### Test It Out
+
+  1. Install the CRDs into the cluster:
+
+      ```sh
+      make install
+      ```
+
+  2. Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
+
+      ```sh
+      make run
+      ```
+
+  **NOTE:** You can also run this in one step by running: `make install run`
+
+  ### Modifying the API definitions
+
+  If you are editing the API definitions, generate the manifests such as CRs or CRDs using:
+
+  ```sh
+  make manifests
+  ```
+
+  **NOTE:** Run `make --help` for more information on all potential `make` targets
+
+  More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
+
+  ## License
+
+  Copyright 2024 zncdatadev.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+name: listener-operator
+schema: olm.package
+---
+entries:
+- name: listener-operator.v0.0.1
+name: stable
+package: listener-operator
+schema: olm.channel
+---
+image: quay.io/zncdatadev/listener-operator-bundle:v0.0.1
+name: listener-operator.v0.0.1
+package: listener-operator
+properties:
+- type: olm.gvk
+  value:
+    group: listeners.zncdata.dev
+    kind: Listener
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: listeners.zncdata.dev
+    kind: ListenerCSI
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: listeners.zncdata.dev
+    kind: ListenerClass
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: listener-operator
+    version: 0.0.1
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "listeners.zncdata.dev/v1alpha1",
+            "kind": "Listener",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "listener-operator",
+                "app.kubernetes.io/instance": "listener-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "listener",
+                "app.kubernetes.io/part-of": "listener-operator"
+              },
+              "name": "listener-sample"
+            },
+            "spec": {
+              "className": "listenerclass-sample",
+              "ports": [
+                {
+                  "name": "http",
+                  "port": 80,
+                  "protocol": "TCP"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "listeners.zncdata.dev/v1alpha1",
+            "kind": "ListenerCSI",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "listener-operator",
+                "app.kubernetes.io/instance": "listenercsi-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "listenercsi",
+                "app.kubernetes.io/part-of": "listener-operator"
+              },
+              "name": "listenercsi-sample"
+            },
+            "spec": {
+              "csiDriver": {
+                "logging": {
+                  "level": "10"
+                },
+                "pullPolicy": "IfNotPresent",
+                "repository": "quay.io/zncdatadev/listener-csi-driver",
+                "tag": "v0.0.1"
+              },
+              "csiProvisioner": {
+                "logging": {
+                  "level": "10"
+                },
+                "pullPolicy": "IfNotPresent",
+                "repository": "registry.k8s.io/sig-storage/csi-provisioner",
+                "tag": "v3.5.0"
+              },
+              "livenessProbe": {
+                "logging": {
+                  "level": "10"
+                },
+                "pullPolicy": "IfNotPresent",
+                "repository": "registry.k8s.io/sig-storage/livenessprobe",
+                "tag": "v2.11.0"
+              },
+              "nodeDriverRegistrar": {
+                "logging": {
+                  "level": "10"
+                },
+                "pullPolicy": "IfNotPresent",
+                "repository": "registry.k8s.io/sig-storage/csi-node-driver-registrar",
+                "tag": "v2.8.0"
+              }
+            }
+          },
+          {
+            "apiVersion": "listeners.zncdata.dev/v1alpha1",
+            "kind": "ListenerClass",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/created-by": "listener-operator",
+                "app.kubernetes.io/instance": "listenerclass-sample",
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "listenerclass",
+                "app.kubernetes.io/part-of": "listener-operator"
+              },
+              "name": "listenerclass-sample"
+            },
+            "spec": {
+              "serviceType": "ClusterIP"
+            }
+          }
+        ]
+      capabilities: Basic Install
+      createdAt: "2024-05-28T05:36:04Z"
+      operators.operatorframework.io/builder: operator-sdk-v1.34.2
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: ListenerClass is the Schema for the listenerclasses API
+        displayName: Listener Class
+        kind: ListenerClass
+        name: listenerclasses.listeners.zncdata.dev
+        version: v1alpha1
+      - description: ListenerCSI is the Schema for the listenercsis API
+        displayName: Listener CSI
+        kind: ListenerCSI
+        name: listenercsis.listeners.zncdata.dev
+        version: v1alpha1
+      - description: Listener is the Schema for the listeners API
+        displayName: Listener
+        kind: Listener
+        name: listeners.listeners.zncdata.dev
+        version: v1alpha1
+    description: listener operator
+    displayName: listener-operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - listener
+    - operator
+    links:
+    - name: Listener Operator
+      url: https://listener-operator.domain
+    maintainers:
+    - email: huagang517@126.com
+      name: huagang
+    maturity: alpha
+    provider:
+      name: zncdatadev
+      url: https://github.com/zncdatadev
+relatedImages:
+- image: docker.io/bitnami/kube-rbac-proxy:0.13.1
+  name: ""
+- image: quay.io/zncdatadev/listener-operator-bundle:v0.0.1
+  name: ""
+- image: quay.io/zncdatadev/listener-operator:v0.0.1
+  name: ""
+schema: olm.bundle
