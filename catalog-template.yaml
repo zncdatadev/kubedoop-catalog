@@ -4,3 +4,5 @@ references:
   image: quay.io/zncdatadev/commons-operator-catalog:latest
 - name: listener-operator
   image: quay.io/zncdatadev/listener-operator-catalog:latest
+- name: secret-operator
+  image: quay.io/zncdatadev/secret-operator-catalog:latest
