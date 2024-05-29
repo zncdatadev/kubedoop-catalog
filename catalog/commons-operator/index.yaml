@@ -1,6 +1,6 @@
 ---
 defaultChannel: stable
-description: |+
+description: |
   # commons-operator
   // TODO(user): Add simple overview of use/purpose
 
@@ -81,7 +81,7 @@ description: |+
 
   ## License
 
-  Copyright 2023 zncdata-labs.
+  Copyright 2023 zncdatadev.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -94,7 +94,6 @@ description: |+
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 name: commons-operator
 schema: olm.package
 ---
@@ -231,7 +230,7 @@ properties:
           }
         ]
       capabilities: Basic Install
-      createdAt: "2024-05-28T06:17:43Z"
+      createdAt: "2024-05-28T11:10:58Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -252,7 +251,7 @@ properties:
       - kind: S3Connection
         name: s3connections.zncdata.dev
         version: v1alpha1
-    description: zncdata-labs commons operator
+    description: zncdatadev commons operator
     displayName: commons operator
     installModes:
     - supported: true
@@ -264,17 +263,17 @@ properties:
     - supported: true
       type: AllNamespaces
     keywords:
-    - commons operator zncdata-labs
+    - commons operator zncdatadev
     links:
     - name: Commons Operator
-      url: https://github.com/zncdata-labs/operator-go
+      url: https://github.com/zncdatadev/operator-go
     maintainers:
     - email: huagang517@126.com
       name: wanghuagang
     maturity: alpha
     provider:
-      name: zncdata-labs
-      url: https://github.com/zncdata-labs/commons-operator
+      name: zncdatadev
+      url: https://github.com/zncdatadev/commons-operator
 relatedImages:
 - image: docker.io/bitnami/kube-rbac-proxy:0.13.1
   name: ""

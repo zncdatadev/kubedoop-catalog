@@ -232,7 +232,7 @@ properties:
           }
         ]
       capabilities: Basic Install
-      createdAt: "2024-05-28T05:36:04Z"
+      createdAt: "2024-05-28T11:23:36Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
