@@ -28,16 +28,33 @@ OPM = $(shell which opm)
 endif
 endif
 
+.PHONY: yq
+YQ = ./bin/yq
+yq: ## Download yq locally if necessary.
+ifeq (,$(wildcard $(YQ)))
+ifeq (,$(shell which yq 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(YQ)) ;\
+	OS=$(shell go env GOOS) && ARCH=$(shell go env GOARCH) && \
+	curl -sSLo $(YQ) https://github.com/mikefarah/yq/releases/latest/download/yq_$${OS}_$${ARCH} ;\
+	chmod +x $(YQ) ;\
+	}
+else
+YQ = $(shell which yq)
+endif
+endif
+
 # https://olm.operatorframework.io/docs/reference/file-based-catalogs/#building-a-composite-catalog
 .PHONY: build
-build: opm ## Build the project
+build: opm yq ## Build the project
 	@{ \
 		set -ex ;\
-		NAME=$(shell yq eval '.name' $(CATALOG_TEMPLATE)) ;\
+		NAME=$(shell $(YQ) eval '.name' $(CATALOG_TEMPLATE)) ;\
 		rm -rf $$NAME ;\
 		mkdir -p $$NAME ;\
-		yq eval '.name + "/" + .references[].name' $(CATALOG_TEMPLATE) | xargs mkdir -p ;\
-		for ref in $(shell yq e '.name as $$catalog | .references[] | .image + "," + $$catalog + "/" + .name + "/index.yaml"' $(CATALOG_TEMPLATE)); do \
+		$(YQ) eval '.name + "/" + .references[].name' $(CATALOG_TEMPLATE) | xargs mkdir -p ;\
+		for ref in $(shell $(YQ) e '.name as $$catalog | .references[] | .image + "," + $$catalog + "/" + .name + "/index.yaml"' $(CATALOG_TEMPLATE)); do \
 			image=`echo $$ref | cut -d',' -f1` ;\
 			file=`echo $$ref | cut -d',' -f2` ;\
 			$(OPM) render -o yaml "$$image" > "$$file" ;\
