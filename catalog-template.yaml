@@ -6,3 +6,7 @@ references:
   image: quay.io/zncdatadev/listener-operator-catalog:latest
 - name: secret-operator
   image: quay.io/zncdatadev/secret-operator-catalog:latest
+- name: zookeeper-operator
+  image: quay.io/zncdatadev/zookeeper-operator-catalog:latest
+- name: hdfs-operator
+  image: quay.io/zncdatadev/hdfs-operator-catalog:latest
