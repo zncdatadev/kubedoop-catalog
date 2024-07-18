@@ -140,7 +140,7 @@ properties:
             },
             "spec": {
               "clusterConfig": {
-                "zookeeperDiscoveryZNode": "sample-hdfs"
+                "zookeeperConfigMapName": "sample-hdfs"
               },
               "dataNode": {
                 "roleGroups": {
