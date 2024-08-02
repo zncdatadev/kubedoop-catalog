@@ -145,10 +145,7 @@ properties:
             },
             "spec": {
               "clusterConfig": {
-                "service": {
-                  "port": 2181,
-                  "type": "NodePort"
-                }
+                "listenerClass": "external-unstable"
               },
               "image": {
                 "repository": "docker.io/bitnami/zookeeper",
@@ -221,8 +218,9 @@ properties:
           }
         ]
       capabilities: Basic Install
-      createdAt: "2024-06-18T07:33:46Z"
-      operators.operatorframework.io/builder: operator-sdk-v1.33.0
+      categories: Big Data
+      createdAt: "2024-08-01T08:35:28Z"
+      operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
     crdDescriptions:
@@ -238,7 +236,7 @@ properties:
         name: zookeeperznodes.zookeeper.zncdata.dev
         version: v1alpha1
     description: zookeeper operator
-    displayName: \zookeeper-operator
+    displayName: zookeeper-operator
     installModes:
     - supported: true
       type: OwnNamespace
@@ -253,11 +251,14 @@ properties:
     - operator
     links:
     - name: Zookeeper Operator
-      url: https://zookeeper-operator.domain
+      url: https://github.com/zncdatadev/zookeeper-operator
+    - name: Apache Zookeeper
+      url: https://zookeeper.apache.org/
     maintainers:
-    - email: lwpk110@163.com
-      name: luwei
-    maturity: alpha
+    - email: zncdatadev@googlegroups.com
+      name: ZNCDataDev Team
+    maturity: stable
+    minKubeVersion: 1.26.1
     provider:
       name: zncdatadev
       url: https://github.com/zncdatadev/zookeeper-operator
