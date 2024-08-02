@@ -120,6 +120,14 @@ properties:
   value:
     packageName: hdfs-operator
     version: 0.0.1
+- type: olm.package.required
+  value:
+    packageName: listener-operator
+    versionRange: '>=0.0.1'
+- type: olm.package.required
+  value:
+    packageName: zookeeper-operator
+    versionRange: '>=0.0.1'
 - type: olm.csv.metadata
   value:
     annotations:
@@ -254,7 +262,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-07-13T10:16:44Z"
+      createdAt: "2024-08-02T06:39:50Z"
       operators.operatorframework.io/builder: operator-sdk-v1.35.0
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
