@@ -219,7 +219,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-08-01T08:35:28Z"
+      createdAt: "2024-08-02T12:23:56Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -229,6 +229,28 @@ properties:
         displayName: Zookeeper Cluster
         kind: ZookeeperCluster
         name: zookeeperclusters.zookeeper.zncdata.dev
+        resources:
+        - kind: ConfigMap
+          name: ""
+          version: v1
+        - kind: Deployment
+          name: ""
+          version: app/v1
+        - kind: PersistentVolume
+          name: ""
+          version: v1
+        - kind: PersistentVolumeClaim
+          name: ""
+          version: v1
+        - kind: Pod
+          name: ""
+          version: v1
+        - kind: PodDisruptionBudget
+          name: ""
+          version: v1
+        - kind: Service
+          name: ""
+          version: v1
         version: v1alpha1
       - description: ZookeeperZnode is the Schema for the zookeeperznodes API
         displayName: Zookeeper Znode
