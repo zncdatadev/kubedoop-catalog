@@ -236,7 +236,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-07-18T11:34:31Z"
+      createdAt: "2024-07-24T11:30:56Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
