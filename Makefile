@@ -1,5 +1,5 @@
 
-PROJECT ?= kubedata-catalog
+PROJECT ?= kubedoop-catalog
 
 REGISTRY ?= quay.io/zncdatadev
 

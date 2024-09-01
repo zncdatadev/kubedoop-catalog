@@ -102,13 +102,13 @@ name: zookeeper-operator
 schema: olm.package
 ---
 entries:
-- name: zookeeper-operator.v0.0.1
+- name: zookeeper-operator.v0.0.0-dev
 name: stable
 package: zookeeper-operator
 schema: olm.channel
 ---
-image: quay.io/zncdatadev/zookeeper-operator-bundle:v0.0.1
-name: zookeeper-operator.v0.0.1
+image: quay.io/zncdatadev/zookeeper-operator-bundle:0.0.0-dev
+name: zookeeper-operator.v0.0.0-dev
 package: zookeeper-operator
 properties:
 - type: olm.gvk
@@ -124,7 +124,7 @@ properties:
 - type: olm.package
   value:
     packageName: zookeeper-operator
-    version: 0.0.1
+    version: 0.0.0-dev
 - type: olm.csv.metadata
   value:
     annotations:
@@ -219,7 +219,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-08-02T12:23:56Z"
+      createdAt: "2024-08-29T12:14:51Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -287,8 +287,8 @@ properties:
 relatedImages:
 - image: docker.io/bitnami/kube-rbac-proxy:0.13.1
   name: ""
-- image: quay.io/zncdatadev/zookeeper-operator-bundle:v0.0.1
+- image: quay.io/zncdatadev/zookeeper-operator-bundle:0.0.0-dev
   name: ""
-- image: quay.io/zncdatadev/zookeeper-operator:v0.0.1
+- image: quay.io/zncdatadev/zookeeper-operator:0.0.0-dev
   name: ""
 schema: olm.bundle
