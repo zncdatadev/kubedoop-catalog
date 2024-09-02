@@ -111,13 +111,13 @@ name: listener-operator
 schema: olm.package
 ---
 entries:
-- name: listener-operator.v0.0.1
+- name: listener-operator.v0.0.0-dev
 name: stable
 package: listener-operator
 schema: olm.channel
 ---
-image: quay.io/zncdatadev/listener-operator-bundle:v0.0.1
-name: listener-operator.v0.0.1
+image: quay.io/zncdatadev/listener-operator-bundle:0.0.0-dev
+name: listener-operator.v0.0.0-dev
 package: listener-operator
 properties:
 - type: olm.gvk
@@ -138,7 +138,7 @@ properties:
 - type: olm.package
   value:
     packageName: listener-operator
-    version: 0.0.1
+    version: 0.0.0-dev
 - type: olm.csv.metadata
   value:
     annotations:
@@ -236,7 +236,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-07-24T11:30:56Z"
+      createdAt: "2024-08-29T12:39:36Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -285,8 +285,8 @@ properties:
 relatedImages:
 - image: docker.io/bitnami/kube-rbac-proxy:0.13.1
   name: ""
-- image: quay.io/zncdatadev/listener-operator-bundle:v0.0.1
+- image: quay.io/zncdatadev/listener-operator-bundle:0.0.0-dev
   name: ""
-- image: quay.io/zncdatadev/listener-operator:v0.0.1
+- image: quay.io/zncdatadev/listener-operator:0.0.0-dev
   name: ""
 schema: olm.bundle

@@ -111,13 +111,13 @@ name: secret-operator
 schema: olm.package
 ---
 entries:
-- name: secret-operator.v0.0.1
+- name: secret-operator.v0.0.0-dev
 name: stable
 package: secret-operator
 schema: olm.channel
 ---
-image: quay.io/zncdatadev/secret-operator-bundle:v0.0.1
-name: secret-operator.v0.0.1
+image: quay.io/zncdatadev/secret-operator-bundle:0.0.0-dev
+name: secret-operator.v0.0.0-dev
 package: secret-operator
 properties:
 - type: olm.gvk
@@ -133,11 +133,11 @@ properties:
 - type: olm.package
   value:
     packageName: secret-operator
-    version: 0.0.1
+    version: 0.0.0-dev
 - type: olm.package.required
   value:
     packageName: listener-operator
-    versionRange: '>=0.0.1'
+    versionRange: '>=0.0.0-dev'
 - type: olm.csv.metadata
   value:
     annotations:
@@ -217,7 +217,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-07-04T10:01:07Z"
+      createdAt: "2024-08-28T15:30:36Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -276,8 +276,8 @@ properties:
 relatedImages:
 - image: gcr.io/kubebuilder/kube-rbac-proxy:v0.14.1
   name: ""
-- image: quay.io/zncdatadev/secret-operator-bundle:v0.0.1
+- image: quay.io/zncdatadev/secret-operator-bundle:0.0.0-dev
   name: ""
-- image: quay.io/zncdatadev/secret-operator:v0.0.1
+- image: quay.io/zncdatadev/secret-operator:0.0.0-dev
   name: ""
 schema: olm.bundle
