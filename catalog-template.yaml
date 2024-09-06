@@ -10,3 +10,11 @@ references:
   image: quay.io/zncdatadev/zookeeper-operator-catalog:latest
 - name: hdfs-operator
   image: quay.io/zncdatadev/hdfs-operator-catalog:latest
+- name: zookeeper-operator
+  image: quay.io/zncdatadev/zookeeper-operator-catalog:latest
+- name: spark-k8s-operator
+  image: quay.io/zncdatadev/spark-k8s-operator-catalog:latest
+- name: hive-operator
+  image: quay.io/zncdatadev/hive-operator-catalog:latest
+- name: superset-operator
+  image: quay.io/zncdatadev/superset-operator-catalog:latest
