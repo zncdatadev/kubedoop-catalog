@@ -117,16 +117,6 @@ properties:
     version: v1alpha1
 - type: olm.gvk
   value:
-    group: database.zncdata.dev
-    kind: Database
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: database.zncdata.dev
-    kind: DatabaseConnection
-    version: v1alpha1
-- type: olm.gvk
-  value:
     group: s3.zncdata.dev
     kind: S3Bucket
     version: v1alpha1
@@ -157,37 +147,81 @@ properties:
               },
               "name": "authenticationclass-sample"
             },
-            "spec": null
-          },
-          {
-            "apiVersion": "database.zncdata.dev/v1alpha1",
-            "kind": "Database",
-            "metadata": {
-              "labels": {
-                "app.kubernetes.io/created-by": "commons-operator",
-                "app.kubernetes.io/instance": "database-sample",
-                "app.kubernetes.io/managed-by": "kustomize",
-                "app.kubernetes.io/name": "database",
-                "app.kubernetes.io/part-of": "commons-operator"
-              },
-              "name": "database-sample"
-            },
-            "spec": null
-          },
-          {
-            "apiVersion": "database.zncdata.dev/v1alpha1",
-            "kind": "DatabaseConnection",
-            "metadata": {
-              "labels": {
-                "app.kubernetes.io/created-by": "commons-operator",
-                "app.kubernetes.io/instance": "databaseconnection-sample",
-                "app.kubernetes.io/managed-by": "kustomize",
-                "app.kubernetes.io/name": "databaseconnection",
-                "app.kubernetes.io/part-of": "commons-operator"
-              },
-              "name": "databaseconnection-sample"
-            },
-            "spec": null
+            "spec": {
+              "provider": {
+                "ldap": {
+                  "bindCredentials": {
+                    "scope": {
+                      "node": false,
+                      "pod": true,
+                      "services": [
+                        "foo"
+                      ]
+                    },
+                    "secretClass": "ldap-credentials"
+                  },
+                  "hostname": "ldap.example.com",
+                  "ldapFieldNames": {
+                    "email": "mail",
+                    "givenName": "cn",
+                    "group": "cn",
+                    "surname": "cn",
+                    "uid": "cn"
+                  },
+                  "port": 389,
+                  "searchBase": "ou=people,dc=example,dc=com",
+                  "searchFilter": "(uid={username})",
+                  "tls": {
+                    "verification": {
+                      "mutual": {
+                        "certSecretClass": "tls"
+                      },
+                      "none": {},
+                      "server": {
+                        "caCert": {
+                          "secretClass": "tls",
+                          "webPIK": {}
+                        }
+                      }
+                    }
+                  }
+                },
+                "oidc": {
+                  "hostname": "keycloak.example.com",
+                  "port": 8080,
+                  "principalClaim": "preferred_username",
+                  "provisioner": "keycloak",
+                  "rootPath": "/auth",
+                  "scopes": [
+                    "openid",
+                    "email",
+                    "profile"
+                  ],
+                  "tls": {
+                    "verification": {
+                      "mutual": {
+                        "certSecretClass": "tls"
+                      },
+                      "none": {},
+                      "server": {
+                        "caCert": {
+                          "secretClass": "tls",
+                          "webPIK": {}
+                        }
+                      }
+                    }
+                  }
+                },
+                "static": {
+                  "userCredentialsSecret": {
+                    "name": "static-credentials"
+                  }
+                },
+                "tls": {
+                  "clientCertSecretClass": "tls"
+                }
+              }
+            }
           },
           {
             "apiVersion": "s3.zncdata.dev/v1alpha1",
@@ -202,7 +236,10 @@ properties:
               },
               "name": "s3bucket-sample"
             },
-            "spec": null
+            "spec": {
+              "bucketName": "mybucket",
+              "connection": "s3connection-sample"
+            }
           },
           {
             "apiVersion": "s3.zncdata.dev/v1alpha1",
@@ -217,12 +254,40 @@ properties:
               },
               "name": "s3connection-sample"
             },
-            "spec": null
+            "spec": {
+              "credentials": {
+                "host": "s3.example.com",
+                "port": 443,
+                "region": "us-west-1",
+                "scope": {
+                  "node": false,
+                  "pod": true,
+                  "services": [
+                    "foo"
+                  ]
+                },
+                "secretClass": "s3-credentials",
+                "tls": {
+                  "verification": {
+                    "mutual": {
+                      "certSecretClass": "tls"
+                    },
+                    "none": {},
+                    "server": {
+                      "caCert": {
+                        "secretClass": "tls",
+                        "webPIK": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-08-29T12:19:51Z"
+      createdAt: "2024-09-06T10:36:20Z"
       operators.operatorframework.io/builder: operator-sdk-v1.35.0
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
@@ -233,17 +298,6 @@ properties:
         displayName: Authentication Class
         kind: AuthenticationClass
         name: authenticationclasses.authentication.zncdata.dev
-        version: v1alpha1
-      - description: DatabaseConnection is the Schema for the databaseconnections
-          API
-        displayName: Database Connection
-        kind: DatabaseConnection
-        name: databaseconnections.database.zncdata.dev
-        version: v1alpha1
-      - description: Database is the Schema for the databases API
-        displayName: Database
-        kind: Database
-        name: databases.database.zncdata.dev
         version: v1alpha1
       - description: S3Bucket is the Schema for the s3buckets API
         displayName: S3 Bucket

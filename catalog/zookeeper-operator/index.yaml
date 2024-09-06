@@ -147,10 +147,6 @@ properties:
               "clusterConfig": {
                 "listenerClass": "external-unstable"
               },
-              "image": {
-                "repository": "docker.io/bitnami/zookeeper",
-                "tag": "3.9.1-debian-12-r15"
-              },
               "server": {
                 "config": {
                   "resources": {
@@ -219,7 +215,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-08-29T12:14:51Z"
+      createdAt: "2024-09-06T07:15:55Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}

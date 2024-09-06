@@ -163,7 +163,7 @@ properties:
                 },
                 "pullPolicy": "IfNotPresent",
                 "repository": "quay.io/zncdatadev/secret-csi-driver",
-                "tag": "v0.0.1"
+                "tag": "0.0.0-dev"
               },
               "csiProvisioner": {
                 "logging": {
@@ -217,7 +217,7 @@ properties:
         ]
       capabilities: Basic Install
       categories: Big Data
-      createdAt: "2024-08-28T15:30:36Z"
+      createdAt: "2024-09-05T10:51:31Z"
       operators.operatorframework.io/builder: operator-sdk-v1.34.2
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     apiServiceDefinitions: {}
